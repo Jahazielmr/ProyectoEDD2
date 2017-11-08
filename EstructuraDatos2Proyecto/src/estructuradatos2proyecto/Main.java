@@ -402,30 +402,30 @@ public class Main extends javax.swing.JFrame {
             bf.close();
             String acum = "";
             Registro raiz=new Registro();
+            int acum1=-1;
             for (int i = 0; i < temp.length(); i++) {
-                if (temp.charAt(i) == '|') {
-
-                    raiz.setNombre(acum);
-                    archivo.getRegistros().add(raiz);
-                    acum="";
-                    
-                }else if(temp.charAt(i)== '-'){
-                    for (int j = 0; j < archivo.getRegistros().size(); j++) {
-                        if (archivo.getRegistros().get(i).getNombre()==raiz.getNombre()) {
-                            raiz.getCampos().add(new Campo(acum));
-                            acum="";
-                        }
-                    }
-                }else{
-                    acum+=""+temp.charAt(i);
+                switch (temp.charAt(i)) {
+                    case '|':
+                        raiz=new Registro(acum);
+                        archivo.getRegistros().add(raiz);
+                        acum="";
+                        acum1++;
+                        break;
+                    case '-':
+                           archivo.getRegistros().get(acum1).getCampos().add(new Campo(acum));
+                           acum="";
+                           break;
+                    default:
+                        acum+=temp.charAt(i);
+                        break;
                 }
                 
             }
             
         }catch(Exception e){ 
-            System.out.println("No se encontro el archivo");
+            //System.out.println("No se encontro el archivo");
         }
-
+        
         for (int i = 0; i < archivo.getRegistros().size(); i++) {
             System.out.println(archivo.getRegistros().get(i).getNombre());
             for (int j = 0; j < archivo.getRegistros().get(i).getCampos().size(); j++) {
