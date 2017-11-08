@@ -6,6 +6,7 @@
 package estructuradatos2proyecto;
 
 import java.awt.Component;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -173,6 +174,16 @@ public class Main extends javax.swing.JFrame {
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem5.setText("Cargar Archivo");
+        jMenuItem5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItem5MouseClicked(evt);
+            }
+        });
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem5);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
@@ -240,14 +251,12 @@ public class Main extends javax.swing.JFrame {
            
             
             for (int i = 0; i < archivo.getRegistros().size(); i++) {
-                n+= "|"+archivo.getRegistro(i).getNombre();
+                n+= archivo.getRegistro(i).getNombre()+"|";
                 
                 for (int j = 0; j < archivo.getRegistros().get(i).getCampos().size(); j++) {
-                    n+="-"+archivo.getRegistros().get(i).getCampo(j).getNombre();
+                    n+=archivo.getRegistros().get(i).getCampo(j).getNombre()+"-";
                     
                 }
-                n+= "|";
-                n+= "\n";
             }
             
             pw.println(n);
@@ -345,6 +354,62 @@ public class Main extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jMenuItem5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem5MouseClicked
+        
+        
+        
+        
+    }//GEN-LAST:event_jMenuItem5MouseClicked
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        String texto = JOptionPane.showInputDialog(null, "Ingrese nombre del archivo: ");
+        
+        
+        try{
+            BufferedReader bf = new BufferedReader(new FileReader(texto));
+            String temp="";
+            String bfRead;
+            while((bfRead = bf.readLine()) != null){
+                temp = temp + bfRead;
+            }
+
+            bf.close();
+            String acum = "";
+            Registro raiz=new Registro();
+            for (int i = 0; i < temp.length(); i++) {
+                if (temp.charAt(i) == '|') {
+
+                    raiz.setNombre(acum);
+                    archivo.getRegistros().add(raiz);
+                    acum="";
+                    
+                }else if(temp.charAt(i)== '-'){
+                    for (int j = 0; j < archivo.getRegistros().size(); j++) {
+                        if (archivo.getRegistros().get(i).getNombre()==raiz.getNombre()) {
+                            raiz.getCampos().add(new Campo(acum));
+                            acum="";
+                        }
+                    }
+                }else{
+                    acum+=""+temp.charAt(i);
+                }
+                
+            }
+            
+        }catch(Exception e){ 
+            System.out.println("No se encontro el archivo");
+        }
+
+        for (int i = 0; i < archivo.getRegistros().size(); i++) {
+            System.out.println(archivo.getRegistros().get(i).getNombre());
+            for (int j = 0; j < archivo.getRegistros().get(i).getCampos().size(); j++) {
+                System.out.println(archivo.getRegistros().get(i).getCampos().get(j).getNombre());
+            }
+        }
+        
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments
