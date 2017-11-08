@@ -16,6 +16,8 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import jdk.jfr.events.FileWriteEvent;
 
 /**
@@ -29,6 +31,7 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        
     }
 
     /**
@@ -53,7 +56,7 @@ public class Main extends javax.swing.JFrame {
         tf_campo = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jt_arbol = new javax.swing.JTree();
+        arbolArchivo = new javax.swing.JTree();
         TabPrincipal = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -99,7 +102,9 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane2.setViewportView(jt_arbol);
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Archivo");
+        arbolArchivo.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jScrollPane2.setViewportView(arbolArchivo);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -329,8 +334,25 @@ public class Main extends javax.swing.JFrame {
         cb_registro.setModel(cb);
         
         tf_registro.setText("");
+       
         
+        DefaultTreeModel m = (DefaultTreeModel) arbolArchivo.getModel();
+        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) m.getRoot();
+        DefaultMutableTreeNode nodoRegistro;
+        nodoRegistro  = nodo_registro;
+        DefaultMutableTreeNode regis;
+        regis  = new DefaultMutableTreeNode(fa);
+        DefaultMutableTreeNode nombre;
+        nombre = new DefaultMutableTreeNode(registro);
+       
+        regis.add(nombre);
         
+        nodoRegistro.add (regis);
+ 
+        raiz.add(nodoRegistro);
+        
+        m.reload ();
+               
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -342,7 +364,9 @@ public class Main extends javax.swing.JFrame {
         archivo.getRegistros().get(cb_registro.getSelectedIndex()).getCampos().add(new Campo(campo));
         
         tf_campo.setText("");
-        
+         
+       
+       
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -383,6 +407,7 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane TabPrincipal;
+    private javax.swing.JTree arbolArchivo;
     private javax.swing.JComboBox<String> cb_registro;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -403,13 +428,14 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTree jt_arbol;
     private javax.swing.JTextField tf_campo;
     private javax.swing.JTextField tf_registro;
     // End of variables declaration//GEN-END:variables
 
 Archivo archivo= new Archivo();
 
+DefaultMutableTreeNode nodo_registro = new DefaultMutableTreeNode("Registros");
+DefaultMutableTreeNode nodo_campo = new DefaultMutableTreeNode("campo");
 
 
 }
