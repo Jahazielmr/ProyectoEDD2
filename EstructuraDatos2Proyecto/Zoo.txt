@@ -1,0 +1,3 @@
+|Personas-Nombre-Edad|
+|Animales-Especie-Sexo|
+

@@ -31,3 +31,4 @@
 *.out
 *.app
 /EstructuraDatos2Proyecto/build/
+/EstructuraDatos2Proyecto/nbproject/private/
